@@ -1,138 +1,176 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>DC — Comic Notes</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DC</title>
 <style>
-:root{
-  --bg:#0b0b0c; --card:#121215; --ink:#eaeaf0; --muted:#9aa0a6;
-  --accent:#6ea8fe; --accent-2:#9b87f5;
-  --radius:14px; --gap:14px; --shadow:0 8px 24px rgba(0,0,0,.35);
-  --pill:#1c1d23; --pill-br:#2a2d39; --success:#18a957; --danger:#b3243e;
-}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-a{color:var(--accent)}
-.wrap{max-width:920px;margin:0 auto;padding:calc(var(--gap)*1.2)}
-header{position:sticky;top:0;background:linear-gradient(180deg,var(--bg),rgba(11,11,12,.86) 60%,rgba(11,11,12,0));backdrop-filter:saturate(1.2) blur(6px);z-index:50}
-.topbar{display:flex;gap:10px;align-items:center}
-.brand{font-weight:700;letter-spacing:.5px}
-.tabs{display:flex;gap:8px;margin-left:8px}
-.tab{padding:8px 12px;border-radius:999px;background:#16171c;border:1px solid #2a2d36;color:#cfd3e6;cursor:pointer}
-.tab.active{background:#21232a;color:#fff;border-color:#3b5bff}
-.search{flex:1;display:flex;gap:8px}
-.search input{width:100%;padding:12px 14px;border-radius:999px;border:1px solid #202127;background:#0f0f12;color:var(--ink)}
-.select{padding:8px 10px;border-radius:10px;border:1px solid #2a2d36;background:#171820;color:#e9edff}
-.authbar{display:flex;align-items:center;gap:10px;color:#b9bfd3;font-size:.9rem}
-.actions{position:relative}
-.dotmenu{background:none;border:0;color:#b9bfd3;font-size:20px;cursor:pointer}
-.menu{position:absolute;right:0;top:26px;background:#14151a;border:1px solid #2a2d36;border-radius:10px;min-width:200px;display:none;box-shadow:var(--shadow);overflow:hidden}
-.menu.open{display:block}
-.menu button,.menu div{display:block;width:100%;text-align:left;background:transparent;border:0;color:#eaeaf0;padding:10px 12px;cursor:pointer}
-.menu .muted{color:#9aa0a6}
-.viewbar{display:flex;gap:10px;align-items:center;margin-top:8px}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.chip{padding:6px 10px;border-radius:999px;background:var(--pill);border:1px solid var(--pill-br);color:#c7cbe0;cursor:pointer}
-.chip.active{color:#e9edff;border-color:var(--accent-2)}
-main{display:grid;gap:var(--gap);margin-top:var(--gap)}
-.section{margin-top:6px}
-.section h3{margin:14px 0 8px 4px;font-size:1rem;color:#cfd3e6}
-.card{display:grid;grid-template-columns:92px 1fr;gap:12px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:12px}
-.thumb{width:100%;aspect-ratio:3/4;border-radius:10px;overflow:hidden;background:#0f0f12;display:flex;align-items:center;justify-content:center;border:1px solid #24252b; cursor:pointer}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.meta{display:flex;flex-direction:column;gap:6px;min-width:0}
-.line1{display:flex; gap:8px; align-items:center; min-width:0}
-.issue{font-weight:800;white-space:nowrap}
-.title{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.seriesline{color:#c0c6dc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
-.tag{font-size:.85rem;padding:4px 9px;border-radius:999px;background:var(--pill);color:#b6c6ff;border:1px solid var(--pill-br);cursor:pointer}
-.tag::before{content:"#";}
-.tag:hover{border-color:#5d6bff}
-.empty{color:#9aa0a6;text-align:center;padding:32px}
-.page{background:var(--card);padding:16px;border-radius:14px;box-shadow:var(--shadow)}
-.row{display:grid;gap:10px;margin-bottom:12px}
-.row.cols{grid-template-columns:1fr 1fr}
-label{font-size:.9rem;color:#b9bfd3}
-input[type="text"], input[type="number"], textarea{
-  width:100%;padding:12px;border-radius:10px;border:1px solid #22242b;background:#0f1014;color:var(--ink)
-}
-textarea{min-height:110px;resize:vertical}
-.grid-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
-.imgcell{position:relative;border:1px solid #272a33;border-radius:10px;overflow:hidden;background:#0f0f12}
-.imgcell img{width:100%;height:140px;object-fit:cover;display:block;cursor:pointer}
-.imgcell button{position:absolute;top:6px;right:6px;border:0;border-radius:8px;padding:6px 8px;background:rgba(0,0,0,.6);color:#fff;cursor:pointer}
-.btns{display:flex;gap:10px;flex-wrap:wrap}
-.btn{padding:11px 14px;border-radius:10px;border:1px solid #2a2d36;background:#171820;color:#e9edff;cursor:pointer}
-.btn.primary{border-color:#3556ff;background:linear-gradient(180deg,#3b5bff,#2f48c9)}
-.btn.warn{border-color:#48252a;background:linear-gradient(180deg,#7a2d36,#63222a)}
-.btn.ghost{background:transparent}
-.fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(180deg,#7aa2ff,#8f7aff); border:0;color:white;font-size:28px;box-shadow:0 10px 30px rgba(0,0,0,.4);cursor:pointer;z-index:40}
-body.editing .fab{display:none}
-.viewer{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:60}
-.viewer.active{display:flex}
-.viewer img{max-width:96vw;max-height:92vh;display:block;border-radius:12px}
-.backlink{display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;color:#eaeaf0}
-.health{padding:12px;font-size:.95rem}
-.health .ok{color:var(--success)} .health .bad{color:var(--danger)}
-@media (max-width:560px){ .card{grid-template-columns:72px 1fr} }
+  :root{
+    --bg:#0a0a0b; --card:#121216; --ink:#eef0f6; --muted:#a5abb6;
+    --pill:#1a2030; --pill-b:#3f5bd9; --accent:#8aa2ff;
+    --chip:#1c2030; --chip-b:#2a3350;
+    --radius:16px; --gap:14px; --shadow:0 10px 28px rgba(0,0,0,.35);
+    --maxw:900px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.45 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:14px}
+  header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(10,10,11,.98),rgba(10,10,11,.75) 55%,rgba(10,10,11,0))}
+  .top{display:flex;align-items:center;gap:10px}
+  .back{display:none;font-size:22px;cursor:pointer;padding:8px}
+  .tabs{display:flex;gap:10px;flex:0 0 auto}
+  .tab{padding:10px 16px;border-radius:999px;background:var(--pill);border:1.5px solid transparent;color:#cfd6ee;cursor:pointer}
+  .tab.active{border-color:var(--accent);color:white}
+  .spacer{flex:1}
+  .search{display:flex;align-items:center;gap:8px}
+  .search input{width:162px;max-width:42vw;padding:9px 12px;border-radius:999px;border:1px solid #262a35;background:#0f1016;color:var(--ink)}
+  .menu{position:relative}
+  .kebab{border:0;background:#1a1c24;color:#c8cfe4;border-radius:10px;padding:8px 10px;cursor:pointer}
+  .menubox{position:absolute;right:0;top:44px;background:#0f1016;border:1px solid #2a2e3a;border-radius:12px;padding:8px;display:none;min-width:160px}
+  .menubox button, .menubox a{width:100%;text-align:left;border:0;background:transparent;color:#e9edff;padding:8px 10px;border-radius:8px;display:block;cursor:pointer}
+
+  .filters{display:none;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .filters.show{display:flex}
+  .chip{padding:8px 12px;border-radius:999px;background:var(--chip);border:1px solid var(--chip-b);color:#cfd6ee;cursor:pointer}
+  .chip.active{background:#2b3655}
+
+  main.wrap{padding-top:6px}
+  .series-list{display:grid;gap:12px}
+  .pill{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-radius:999px;background:#0f1119;border:2px solid var(--pill-b);box-shadow:var(--shadow);cursor:pointer}
+  .pill .name{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pill .count{opacity:.9}
+
+  .grid{display:grid;gap:12px}
+  .card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:12px;border:1px solid #272a36}
+  .card img{width:100%;height:auto;border-radius:10px;display:block}
+  .meta{margin-top:10px}
+  .line1{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .num{font-weight:800}
+  .title{font-weight:650;opacity:.92}
+  .sub{color:var(--muted)}
+  .summary{margin-top:8px;color:#e9ebf6}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .tag{padding:6px 10px;border-radius:999px;background:#1c2232;border:1px solid #2b3248;color:#e7ecff;cursor:pointer}
+
+  .btn{padding:11px 14px;border-radius:10px;border:1px solid #2a2d36;background:#171820;color:#e9edff;cursor:pointer}
+  .btn.primary{border-color:#3556ff;background:linear-gradient(180deg,#3b5bff,#2f48c9)}
+
+  .fab{position:fixed;right:16px;bottom:16px;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:white;color:black;font-size:34px;box-shadow:0 14px 34px rgba(0,0,0,.45);cursor:pointer;z-index:60;display:none}
+  body.canEdit .fab{display:flex}
+  body.editing .fab{display:none}
+
+  .sheet{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;z-index:70}
+  .sheet.show{display:flex}
+  .panel{background:#0f1118;border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -20px 40px rgba(0,0,0,.4);max-height:92vh;overflow:auto;width:100%}
+  .panel .h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #242838}
+  .panel .body{padding:14px 16px}
+  .row{display:grid;gap:10px;margin:10px 0}
+  .row.cols{grid-template-columns:1fr 1fr}
+  label{font-size:.9rem;color:#b9bfd3}
+  input[type=text], input[type=number], textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #222839;background:#0f1016;color:var(--ink)}
+  textarea{min-height:110px;resize:vertical}
+
+  .grid-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+  .imgcell{position:relative;border:1px solid #272a33;border-radius:10px;overflow:hidden;background:#0f0f12}
+  .imgcell img{width:100%;height:140px;object-fit:cover;display:block}
+  .imgcell button{position:absolute;top:6px;right:6px;border:0;border-radius:8px;padding:6px 8px;background:rgba(0,0,0,.6);color:#fff;cursor:pointer}
+
+  .viewer{position:fixed;inset:0;background:rgba(0,0,0,.93);display:none;align-items:center;justify-content:center;z-index:90}
+  .viewer.show{display:flex}
+  .viewer img{max-width:96vw;max-height:92vh;border-radius:12px}
+
+  @media (min-width:680px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+  }
 </style>
 </head>
 <body>
-<header class="wrap">
-  <div class="topbar">
-    <div class="brand">DC Notes</div>
-
-    <div class="tabs">
-      <div class="tab active" id="tab-series">Series</div>
-      <div class="tab" id="tab-tags">Tags</div>
+  <header class="wrap">
+    <div class="top">
+      <div id="back" class="back" title="Back">←</div>
+      <div class="tabs">
+        <button class="tab active" id="tab-series">Series</button>
+        <button class="tab" id="tab-tags">Tags</button>
+      </div>
+      <div class="spacer"></div>
+      <div class="search"><input id="q" placeholder="Search…"></div>
+      <div class="menu">
+        <button class="kebab" id="menuBtn">⋯</button>
+        <div class="menubox" id="menuBox">
+          <div id="authArea">
+            <div style="padding:6px 10px;color:#9aa3bb">Auth</div>
+            <button id="btn-signin">Sign in</button>
+            <button id="btn-signup">Sign up</button>
+            <button id="btn-reset">Reset password</button>
+            <button id="btn-logout" style="display:none">Log out</button>
+          </div>
+        </div>
+      </div>
     </div>
+    <div id="filters" class="filters"></div>
+  </header>
 
-    <div class="search">
-      <input id="q" placeholder="Search: #25 / series / title / tag / artist / writer">
-    </div>
+  <main class="wrap">
+    <div id="seriesView" class="series-list"></div>
+    <div id="listView" class="grid" style="display:none"></div>
+  </main>
 
-    <select id="view-mode" class="select" title="View mode">
-      <option value="issue">By Issue</option>
-      <option value="title">By Series A→Z</option>
-      <option value="group">Grouped by Series</option>
-    </select>
+  <button class="fab" id="fab" title="Add">+</button>
 
-    <div class="authbar" id="authbar">
-      <span id="auth-status">Guest</span>
-      <form id="auth-form" style="display:flex;gap:6px; align-items:center;">
-        <input id="auth-email" type="email" placeholder="email" style="width:160px;padding:6px 8px;border-radius:8px;border:1px solid #222;background:#0f1014;color:#eaeaf0">
-        <input id="auth-pass" type="password" placeholder="password" style="width:120px;padding:6px 8px;border-radius:8px;border:1px solid #222;background:#0f1014;color:#eaeaf0">
-        <button type="submit" class="btn ghost" id="btn-auth">Sign in</button>
-        <button type="button" class="btn ghost" id="btn-signup">Sign up</button>
-        <button type="button" class="btn ghost" id="btn-reset">Reset</button>
-        <button type="button" class="btn ghost" id="btn-logout" style="display:none">Log out</button>
-      </form>
-
-      <div class="actions">
-        <button class="dotmenu" id="btn-more" title="More">⋯</button>
-        <div class="menu" id="more-menu">
-          <div class="muted" id="menu-email" style="padding:10px 12px">—</div>
-          <button id="menu-health">Health check</button>
-          <button id="menu-export">Export JSON</button>
-          <button id="menu-logout">Log out</button>
+  <!-- Bottom sheet (form) -->
+  <div class="sheet" id="sheet">
+    <div class="panel">
+      <div class="h">
+        <div style="font-weight:700">New Chapter</div>
+        <button class="btn" id="closeSheet">Close</button>
+      </div>
+      <div class="body">
+        <div class="row cols">
+          <div><label>Series *</label><input id="f-series" type="text" placeholder="e.g. Batman v3 (2016)"></div>
+          <div><label>Issue *</label><input id="f-issue" type="number" min="0" placeholder="e.g. 1"></div>
+        </div>
+        <div class="row cols">
+          <div><label>Title</label><input id="f-title" type="text" placeholder="Issue title (optional)"></div>
+          <div><label>Year</label><input id="f-year" type="number" placeholder="e.g. 2016"></div>
+        </div>
+        <div class="row cols">
+          <div><label>Artist</label><input id="f-artist" type="text" placeholder="Artist"></div>
+          <div><label>Writer</label><input id="f-writer" type="text" placeholder="Writer"></div>
+        </div>
+        <div class="row"><label>Summary</label><textarea id="f-summary" placeholder="Short summary…"></textarea></div>
+        <div class="row">
+          <label>Tags (comma-separated)</label>
+          <input id="f-tags" type="text" placeholder="Tim, Family">
+          <div style="margin-top:8px;color:#9aa3bb">Suggestions:</div>
+          <div id="tag-suggestions" class="tags" style="margin-top:6px"></div>
+        </div>
+        <div class="row cols">
+          <div><label>Link A (optional)</label><input id="f-linka" type="text" placeholder="https://…"></div>
+          <div><label>Link B (optional)</label><input id="f-linkb" type="text" placeholder="https://…"></div>
+        </div>
+        <div class="row">
+          <label>Images</label>
+          <div class="tags" style="margin-bottom:8px">
+            <button class="btn" id="btn-add-url" type="button">Add URL</button>
+            <button class="btn" id="btn-upload" type="button">Upload file</button>
+          </div>
+          <div class="grid-imgs" id="img-grid"></div>
+        </div>
+        <div class="row" style="display:flex;gap:10px">
+          <button class="btn" id="cancel">Cancel</button>
+          <button class="btn primary" id="save">Save</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="filters" id="filters"></div>
-</header>
+  <!-- fullscreen image viewer -->
+  <div id="viewer" class="viewer" title="Tap to close"><img alt=""></div>
 
-<main class="wrap" id="feed"></main>
-<button class="fab" id="fab">+</button>
-<div class="wrap" id="detail" style="display:none"></div>
-<div class="viewer" id="viewer" title="Tap to close"><img alt=""></div>
-
-<script type="module">
-/*************** CONFIG — REPLACE WITH YOURS ***************/
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ====== CONFIG: заполни свои значения ====== */
 const CONFIG = {
   SUPABASE_URL: "https://lzdbzspbahovmxutdxzt.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6ZGJ6c3BiYWhvdm14dXRkeHp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2OTYwODQsImV4cCI6MjA3MzI3MjA4NH0.a4yyqKVh-gb-A_74OoVRE1CBxRIwqbG6U508w4u0ZV0",
@@ -141,597 +179,390 @@ const CONFIG = {
   CLOUDINARY_UNSIGNED_PRESET: "DC-comics",
   CLOUDINARY_FOLDER: "dc"
 };
+/* ========================================== */
 
-/*************** Supabase SDK ***************/
-const sbScript = document.createElement('script');
-sbScript.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
-document.head.appendChild(sbScript);
-sbScript.addEventListener('load', init);
+const SUGGESTED_TAGS = [
+  "Tim","Steph","Cluemaster","JackDrake","Bart","Conner","Cassy","YJ","Roy","Family","Batman","Robin","Batwoman"
+];
 
-/***************** State *****************/
-let supabase, session = null, canEdit = false;
-let allNotes = [];           // all records cache
-let activeTag = null;
-let viewMode = 'issue';      // 'issue' | 'title' | 'group'
-let activeTab = 'series';    // 'series' | 'tags'
+let supabase = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+let session=null, canEdit=false;
+let allNotes = []; // кэш
+let currentSeries = null; // строка
+let currentMode = 'series'; // 'series' | 'list-series' | 'list-tag'
+let currentTag = null;
 
-/***************** Router *****************/
-window.addEventListener('hashchange', handleRoute);
-function routeTo(hash){ location.hash = hash; }
-function handleRoute(){
-  const h = location.hash || '#/feed';
-  if (h.startsWith('#/detail/')){
-    const id = decodeURIComponent(h.split('/')[2]);
-    const n = allNotes.find(x=>x.id===id);
-    if (n) renderDetail(n);
-  } else if (h.startsWith('#/edit/')){
-    const id = decodeURIComponent(h.split('/')[2]);
-    const n = id==='new' ? null : allNotes.find(x=>x.id===id);
-    renderForm(n);
-  } else {
-    document.getElementById('detail').style.display='none';
-    document.getElementById('feed').style.display='';
-  }
-}
+// UI refs
+const backBtn = document.getElementById('back');
+const seriesView = document.getElementById('seriesView');
+const listView = document.getElementById('listView');
+const tabSeries = document.getElementById('tab-series');
+const tabTags = document.getElementById('tab-tags');
+const filters = document.getElementById('filters');
+const fab = document.getElementById('fab');
+const viewerEl = document.getElementById('viewer');
+
+/* ---------- init ---------- */
+init().catch(console.error);
 
 async function init(){
-  supabase = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-
-  wireAuthForm();
-  wireOverflowMenu();
-
+  // auth state
   const { data: { session: s } } = await supabase.auth.getSession();
   session = s;
-  await refreshAuthUI();
-
-  supabase.auth.onAuthStateChange(async (_event, newSession) => {
+  supabase.auth.onAuthStateChange((_evt, newSession)=>{
     session = newSession;
-    await refreshAuthUI();
-    await loadFeed();
+    refreshAuthUI();
+  });
+  refreshAuthUI();
+
+  // UI events
+  tabSeries.onclick = ()=> showSeries();
+  tabTags.onclick = ()=> showTags();
+  document.getElementById('q').oninput = handleSearch;
+  backBtn.onclick = goBack;
+  document.getElementById('menuBtn').onclick = toggleMenu;
+  document.getElementById('viewer').onclick = ()=> viewer(false);
+
+  // Auth menu
+  document.getElementById('btn-signin').onclick = async()=>{
+    const email = prompt('Email:'); if(!email) return;
+    const pass = prompt('Password:'); if(!pass) return;
+    const { error } = await supabase.auth.signInWithPassword({email, password:pass});
+    if(error) return alert(error.message);
+  };
+  document.getElementById('btn-signup').onclick = async()=>{
+    const email = prompt('Email:'); if(!email) return;
+    const pass = prompt('Password: (min 6)'); if(!pass) return;
+    const { error } = await supabase.auth.signUp({email, password:pass});
+    if(error) return alert(error.message);
+    alert('Check your email (confirm). Then sign in.');
+  };
+  document.getElementById('btn-reset').onclick = async()=>{
+    const email = prompt('Email to reset:'); if(!email) return;
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: location.href });
+    if(error) alert(error.message); else alert('Reset email sent.');
+  };
+  document.getElementById('btn-logout').onclick = async()=>{ await supabase.auth.signOut(); };
+
+  // FAB & form sheet
+  fab.onclick = ()=> openForm();
+  wireForm();
+
+  // tag suggestions
+  const sugBox = document.getElementById('tag-suggestions');
+  SUGGESTED_TAGS.forEach(t=>{
+    const el = chip('#'+t); el.onclick=()=> addTagToInput(t);
+    sugBox.appendChild(el);
   });
 
-  document.getElementById('q').addEventListener('input', filterFeed);
-  document.getElementById('fab').addEventListener('click', () => routeTo('#/edit/new'));
-  document.getElementById('viewer').addEventListener('click', () => viewer(false));
-  document.getElementById('view-mode').addEventListener('change', (e)=>{ viewMode = e.target.value; filterFeed(); });
-
-  document.getElementById('tab-series').onclick = ()=>{ activeTab='series'; syncTabs(); filterFeed(); };
-  document.getElementById('tab-tags').onclick   = ()=>{ activeTab='tags';   syncTabs(); renderTagsPage(); };
-
-  await loadFeed();
-  if (!location.hash) routeTo('#/feed');
-  handleRoute();
+  // first load
+  await loadAll();
+  showSeries(); // стартовый экран
 }
 
-/*************** Auth ***************/
-async function refreshAuthUI(){
-  const authStatus = document.getElementById('auth-status');
-  const btnLogout = document.getElementById('btn-logout');
-  const emailInput = document.getElementById('auth-email');
-  const passInput  = document.getElementById('auth-pass');
-
-  const { data: { session: s } } = await supabase.auth.getSession();
-  session = s;
-
-  const menuEmail = document.getElementById('menu-email');
-
-  if (session?.user){
-    authStatus.textContent = 'Owner';
-    btnLogout.style.display = '';
-    emailInput.style.display = passInput.style.display = 'none';
-    document.getElementById('btn-auth').style.display = 'none';
-    document.getElementById('btn-signup').style.display = 'none';
-    document.getElementById('btn-reset').style.display = 'none';
-    canEdit = (session.user.email === CONFIG.OWNER_EMAIL);
-    menuEmail.textContent = session.user.email;
-  } else {
-    authStatus.textContent = 'Guest';
-    btnLogout.style.display = 'none';
-    emailInput.style.display = passInput.style.display = '';
-    document.getElementById('btn-auth').style.display = '';
-    document.getElementById('btn-signup').style.display = '';
-    document.getElementById('btn-reset').style.display = '';
-    canEdit = false;
-    menuEmail.textContent = '—';
-  }
-  document.body.classList.toggle('editing', false);
-  document.getElementById('fab').style.display = canEdit ? '' : 'none';
+function refreshAuthUI(){
+  canEdit = !!(session?.user?.email === CONFIG.OWNER_EMAIL);
+  document.body.classList.toggle('canEdit', canEdit);
+  document.getElementById('btn-logout').style.display = session?.user ? '' : 'none';
 }
-async function signInPassword(email, password){
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) throw error; return data;
-}
-async function signUpPassword(email, password){
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) throw error; return data;
-}
-async function resetPassword(email){
-  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
-  if (error) throw error;
-}
-function wireAuthForm(){
-  const form = document.getElementById('auth-form');
-  const email = document.getElementById('auth-email');
-  const pass  = document.getElementById('auth-pass');
-  const btnSignup = document.getElementById('btn-signup');
-  const btnReset  = document.getElementById('btn-reset');
-  const btnLogout = document.getElementById('btn-logout');
 
-  form.addEventListener('submit', async (e)=>{ e.preventDefault();
-    try{ await signInPassword(email.value.trim(), pass.value); toast('Signed in'); await refreshAuthUI(); await loadFeed(); }
-    catch(err){ alert('Login error: ' + err.message); }
+async function loadAll(){
+  const { data, error } = await supabase.from('notes').select('*');
+  if(error){ alert(error.message); return; }
+  allNotes = (data||[]);
+}
+
+/* ---------- Views ---------- */
+function showSeries(){
+  currentMode='series'; currentSeries=null; currentTag=null;
+  tabSeries.classList.add('active'); tabTags.classList.remove('active');
+  backBtn.style.display='none';
+  filters.classList.remove('show');
+  listView.style.display='none';
+  seriesView.style.display='';
+  renderSeriesPills();
+}
+function showListForSeries(series){
+  currentMode='list-series'; currentSeries=series; currentTag=null;
+  tabSeries.classList.add('active'); tabTags.classList.remove('active');
+  backBtn.style.display='block';
+  filters.classList.remove('show');
+  seriesView.style.display='none';
+  listView.style.display='';
+  const items = allNotes.filter(n=> n.series===series).sort((a,b)=>(a.issue??0)-(b.issue??0));
+  renderCards(items);
+}
+function showTags(){
+  currentMode='tags'; currentSeries=null; currentTag=null;
+  tabSeries.classList.remove('active'); tabTags.classList.add('active');
+  backBtn.style.display='none';
+  seriesView.style.display='none';
+  listView.style.display='none';
+  renderTagFilters();
+}
+function showListForTag(tag){
+  currentMode='list-tag'; currentTag=tag;
+  backBtn.style.display='block';
+  seriesView.style.display='none';
+  listView.style.display='';
+  const items = allNotes.filter(n=> (n.tags||[]).includes(tag)).sort((a,b)=>{
+    if(a.series===b.series) return (a.issue??0)-(b.issue??0);
+    return a.series.localeCompare(b.series);
   });
-  btnSignup.addEventListener('click', async ()=>{
-    try{ if (!email.value || !pass.value) return alert('Specify email and password');
-      await signUpPassword(email.value.trim(), pass.value);
-      toast('Account created.'); await refreshAuthUI(); await loadFeed();
-    } catch(err){ alert('Signup error: ' + err.message); }
+  renderCards(items);
+}
+function goBack(){
+  if(currentMode==='list-series' || currentMode==='list-tag'){
+    showSeries();
+  }
+}
+
+/* ---------- Renderers ---------- */
+function renderSeriesPills(){
+  seriesView.innerHTML='';
+  // сгруппировать
+  const map = new Map();
+  allNotes.forEach(n=>{
+    const k = n.series||'—';
+    map.set(k,(map.get(k)||0)+1);
   });
-  btnReset.addEventListener('click', async ()=>{
-    try{ if (!email.value) return alert('Enter email');
-      await resetPassword(email.value.trim()); alert('Reset link sent to your email.');
-    } catch(err){ alert('Error: ' + err.message); }
-  });
-  btnLogout.addEventListener('click', async ()=>{
-    await supabase.auth.signOut(); toast('Signed out'); await refreshAuthUI(); await loadFeed();
-  });
-}
-function wireOverflowMenu(){
-  const btn = document.getElementById('btn-more');
-  const menu = document.getElementById('more-menu');
-  const logout = document.getElementById('menu-logout');
-  const health = document.getElementById('menu-health');
-  const exportBtn = document.getElementById('menu-export');
-  btn.addEventListener('click', (e)=>{ e.stopPropagation(); menu.classList.toggle('open'); });
-  logout.addEventListener('click', async ()=>{ await supabase.auth.signOut(); menu.classList.remove('open'); toast('Signed out'); await refreshAuthUI(); await loadFeed(); });
-  health.addEventListener('click', ()=>{ menu.classList.remove('open'); renderHealth(); });
-  exportBtn.addEventListener('click', async ()=>{ menu.classList.remove('open'); await exportJSON(); });
-  document.addEventListener('click', ()=> menu.classList.remove('open'));
-}
-
-/*************** Data ***************/
-async function loadFeed(){
-  const { data, error } = await supabase.from('notes').select('*').order('issue', { ascending: true });
-  if (error){ console.error(error); toast('Load error'); return; }
-  allNotes = data || [];
-  syncTabs();
-  filterFeed();
-  renderFilterChips(allNotes);
-}
-function seriesListFromNotes(list){
-  const s = new Set();
-  for (const n of list){ if (n.series) s.add(n.series); }
-  return [...s].sort((a,b)=>a.localeCompare(b));
-}
-
-/*************** Rendering ***************/
-function syncTabs(){
-  document.getElementById('tab-series').classList.toggle('active', activeTab==='series');
-  document.getElementById('tab-tags').classList.toggle('active', activeTab==='tags');
-}
-function renderFeed(list){
-  const feed = document.getElementById('feed'); feed.innerHTML = '';
-  if (activeTab==='tags'){ renderTagsPage(); return; }
-
-  if (!list.length){
-    feed.innerHTML = `<div class="empty">Empty. Tap “+” to add the first issue.</div>`; return;
-  }
-
-  if (viewMode === 'group'){
-    const groups = new Map();
-    for (const n of list){
-      const key = (n.series||'— No series —');
-      if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(n);
-    }
-    const sortedKeys = [...groups.keys()].sort((a,b)=>a.localeCompare(b));
-    for (const key of sortedKeys){
-      const sect = document.createElement('div'); sect.className='section';
-      const h = document.createElement('h3'); h.textContent = key; sect.appendChild(h);
-      const items = groups.get(key).slice().sort((a,b)=>(a.issue||0)-(b.issue||0));
-      items.forEach(n=> sect.appendChild(renderCard(n)));
-      feed.appendChild(sect);
-    }
-  } else {
-    let items = list.slice();
-    if (viewMode === 'title'){ items.sort((a,b)=> (a.series||'').localeCompare(b.series||'')); }
-    else { items.sort((a,b)=> (a.issue||0)-(b.issue||0)); }
-    items.forEach(n=> feed.appendChild(renderCard(n)));
-  }
-}
-function renderCard(n){
-  const el = document.createElement('div'); el.className = 'card';
-
-  const firstImg = (n.images && n.images.length) ? n.images[0] : null;
-  const thumb = document.createElement('div'); thumb.className='thumb';
-  if (firstImg){
-    const img = document.createElement('img');
-    img.src = thumbUrl(firstImg);
-    img.alt = n.series || ('#'+n.issue);
-    img.addEventListener('click', (e)=>{ e.stopPropagation(); viewer(true, firstImg); });
-    thumb.appendChild(img);
-  }
-  el.appendChild(thumb);
-
-  const meta = document.createElement('div'); meta.className = 'meta';
-  const top = document.createElement('div'); top.className='line1';
-
-  const issue = document.createElement('div'); issue.className='issue'; issue.textContent = `#${n.issue}`; top.appendChild(issue);
-  const title = document.createElement('div'); title.className='title'; title.textContent = n.series || 'No series'; top.appendChild(title);
-
-  const sub = document.createElement('div'); sub.className='seriesline';
-  const subtitle = [n.title, n.link_a?'Link A':null, n.link_b?'Link B':null, n.artist, n.writer, n.year?.toString()].filter(Boolean).join(' • ');
-  sub.textContent = subtitle; top.appendChild(sub);
-
-  if (canEdit){
-    const actions = document.createElement('div'); actions.className='actions';
-    const btn = document.createElement('button'); btn.className='dotmenu'; btn.title='Edit'; btn.textContent='⋯';
-    btn.addEventListener('click', (e)=>{ e.stopPropagation(); routeTo(`#/edit/${encodeURIComponent(n.id)}`); });
-    actions.appendChild(btn); top.appendChild(actions);
-  }
-  meta.appendChild(top);
-
-  if (n.tags?.length){
-    const tags = document.createElement('div'); tags.className='tags';
-    n.tags.forEach(t=>{
-      const chip = document.createElement('span'); chip.className='tag'; chip.textContent = t;
-      chip.addEventListener('click', (e)=>{ e.stopPropagation(); activeTag=t; filterFeed(); });
-      tags.appendChild(chip);
+  // "пилюли"
+  [...map.entries()]
+    .sort((a,b)=> a[0].localeCompare(b[0]))
+    .forEach(([name,count])=>{
+      const el = document.createElement('div'); el.className='pill';
+      const left = document.createElement('div'); left.className='name'; left.textContent=name;
+      const right = document.createElement('div'); right.className='count'; right.textContent=count;
+      el.appendChild(left); el.appendChild(right);
+      el.onclick = ()=> showListForSeries(name);
+      seriesView.appendChild(el);
     });
-    meta.appendChild(tags);
+  // пусто?
+  if(!map.size){
+    const h = document.createElement('div');
+    h.style.cssText='color:#9aa3bb;text-align:center;padding:26px';
+    h.textContent='No data yet. Tap + to add your first chapter.';
+    seriesView.appendChild(h);
   }
+}
 
-  el.addEventListener('click', ()=> routeTo(`#/detail/${encodeURIComponent(n.id)}`));
+function renderCards(items){
+  listView.innerHTML='';
+  items.forEach(n=>{
+    const c = document.createElement('div'); c.className='card';
+    // image (только если есть)
+    const first = (n.images && n.images.length) ? n.images[0] : null;
+    if(first){
+      const im = document.createElement('img');
+      im.src = first; im.alt='';
+      im.onclick = ()=> viewer(true, first);
+      c.appendChild(im);
+    }
+    const meta = document.createElement('div'); meta.className='meta';
+    const l1 = document.createElement('div'); l1.className='line1';
+    const num = document.createElement('div'); num.className='num'; num.textContent = '#'+(n.issue ?? '?'); l1.appendChild(num);
+    if(n.title){ const t = document.createElement('div'); t.className='title'; t.textContent = n.title; l1.appendChild(t); }
+    meta.appendChild(l1);
+    const sub = document.createElement('div'); sub.className='sub';
+    const bits = [];
+    bits.push('—');
+    bits.push((n.series||'').trim());
+    if(n.year) bits.push('('+n.year+')');
+    if(n.link_a) bits.push(`<a href="${n.link_a}" target="_blank" rel="noopener">Link A</a>`);
+    if(n.link_b) bits.push(`<a href="${n.link_b}" target="_blank" rel="noopener">Link B</a>`);
+    sub.innerHTML = bits.join(' ').replace(/\s+/g,' ').trim();
+    meta.appendChild(sub);
+    if(n.summary){
+      const s = document.createElement('div'); s.className='summary';
+      s.textContent = n.summary;
+      meta.appendChild(s);
+    }
+    // tags
+    if(n.tags?.length){
+      const tg = document.createElement('div'); tg.className='tags';
+      n.tags.forEach(t=>{
+        const el = chip('#'+t); el.onclick = ()=> showListForTag(t);
+        tg.appendChild(el);
+      });
+      meta.appendChild(tg);
+    }
+    c.appendChild(meta);
+    listView.appendChild(c);
+  });
+  if(!items.length){
+    const h = document.createElement('div');
+    h.style.cssText='color:#9aa3bb;text-align:center;padding:26px';
+    h.textContent='Nothing here yet.';
+    listView.appendChild(h);
+  }
+}
+
+function renderTagFilters(){
+  filters.innerHTML=''; filters.classList.add('show');
+  const all = new Set();
+  allNotes.forEach(n=> (n.tags||[]).forEach(t=> all.add(t)));
+  if(!all.size){
+    const msg = document.createElement('div');
+    msg.style.cssText='color:#9aa3bb;padding:20px';
+    msg.textContent='No tags yet. Add chapters first.';
+    filters.appendChild(msg);
+    return;
+  }
+  [...all].sort((a,b)=> a.localeCompare(b)).forEach(t=>{
+    const el = chip('#'+t); el.onclick=()=> showListForTag(t);
+    filters.appendChild(el);
+  });
+}
+
+/* ---------- Search ---------- */
+function handleSearch(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  if(!q){
+    if(currentMode==='series') renderSeriesPills();
+    else if(currentMode==='list-series') showListForSeries(currentSeries);
+    else if(currentMode==='list-tag') showListForTag(currentTag);
+    return;
+  }
+  // искать по серии/номеру/тайтлу/тегам
+  const filtered = allNotes.filter(n=>{
+    const bag = [
+      n.series, n.title,
+      String(n.issue ?? ''),
+      (n.tags||[]).join(' ')
+    ].filter(Boolean).join(' ').toLowerCase();
+    return bag.includes(q);
+  });
+  // показать как общий список (поиск — это отдельный вывод)
+  seriesView.style.display='none';
+  listView.style.display='';
+  backBtn.style.display='block';
+  renderCards(filtered.sort((a,b)=>{
+    if(a.series===b.series) return (a.issue??0)-(b.issue??0);
+    return a.series.localeCompare(b.series);
+  }));
+}
+
+/* ---------- Helpers ---------- */
+function chip(text){
+  const el = document.createElement('span'); el.className='chip'; el.textContent=text;
   return el;
 }
-function renderFilterChips(list){
-  const f = document.getElementById('filters'); f.innerHTML = '';
-  const allTags = new Map(); // tag -> count
-  for (const n of list){ (n.tags||[]).forEach(t=> allTags.set(t, (allTags.get(t)||0)+1)); }
-  if (!allTags.size) return;
-
-  const reset = document.createElement('div');
-  reset.className = 'chip' + (activeTag? '' : ' active');
-  reset.textContent = 'All';
-  reset.addEventListener('click', ()=>{ activeTag=null; filterFeed(); });
-  f.appendChild(reset);
-
-  [...allTags.entries()].sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0])).forEach(([t])=>{
-    const el = document.createElement('div');
-    el.className = 'chip' + (activeTag===t ? ' active' : '');
-    el.textContent = '#'+t;
-    el.addEventListener('click', ()=>{ activeTag=t; filterFeed(); });
-    f.appendChild(el);
-  });
+function toggleMenu(){
+  const box = document.getElementById('menuBox');
+  box.style.display = box.style.display==='block' ? 'none' : 'block';
+  document.addEventListener('click', closeOnce, { once:true });
+  function closeOnce(){ box.style.display='none'; }
 }
-function renderTagsPage(){
-  const feed = document.getElementById('feed'); feed.innerHTML = '';
-  const allTags = new Map();
-  for (const n of allNotes){ (n.tags||[]).forEach(t=> allTags.set(t, (allTags.get(t)||0)+1)); }
-  if (!allTags.size){ feed.innerHTML = `<div class="empty">No tags yet.</div>`; return; }
-  const box = document.createElement('div'); box.className='page';
-  const list = document.createElement('div'); list.className='tags';
-  [...allTags.entries()].sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0])).forEach(([t,c])=>{
-    const tag = document.createElement('span'); tag.className='tag'; tag.textContent=t;
-    tag.title = `${c} items`;
-    tag.addEventListener('click', ()=>{ activeTag=t; filterFeed(); activeTab='series'; syncTabs(); });
-    list.appendChild(tag);
-  });
-  box.appendChild(list);
-  feed.appendChild(box);
+function viewer(show, url=''){
+  if(show){ viewerEl.querySelector('img').src=url; viewerEl.classList.add('show'); history.pushState({viewer:1},''); }
+  else { viewerEl.querySelector('img').src=''; viewerEl.classList.remove('show'); }
 }
+window.addEventListener('popstate', ()=>{ if(viewerEl.classList.contains('show')) viewer(false); });
 
-/*************** Search ***************/
-function filterFeed(){
-  const qraw = document.getElementById('q').value.trim();
-  const q = qraw.toLowerCase();
-  let filtered = allNotes;
-
-  // #25 → issue==25
-  const m = q.match(/^#\s*(\d+)$/);
-  if (m){
-    const num = parseInt(m[1],10);
-    filtered = filtered.filter(n=> n.issue === num);
-  } else if (q){
-    filtered = filtered.filter(n=>{
-      const hay = [
-        n.series, n.title, n.artist, n.writer,
-        (n.tags||[]).join(' '), n.link_a, n.link_b,
-        String(n.issue||'')
-      ].filter(Boolean).join(' ').toLowerCase();
-      return hay.includes(q);
-    });
-  }
-  if (activeTag){ filtered = filtered.filter(n=> (n.tags||[]).includes(activeTag)); }
-  renderFeed(filtered);
-}
-
-/*************** Detail ***************/
-function renderDetail(n){
-  const box = document.getElementById('detail');
-  box.style.display = '';
-  document.getElementById('feed').style.display = 'none';
-
-  box.innerHTML = '';
-  const page = document.createElement('div'); page.className='page';
-
-  const back = document.createElement('div'); back.className='backlink'; back.innerHTML='← Back'; back.onclick = ()=> history.back(); page.appendChild(back);
-
-  page.innerHTML += `
-    <div class="row cols">
-      <div><label>Series</label><div>${escapeHtml(n.series||'—')}</div></div>
-      <div><label>Issue</label><div>#${n.issue}</div></div>
-    </div>
-    <div class="row cols">
-      <div><label>Title</label><div>${escapeHtml(n.title||'—')}</div></div>
-      <div><label>Year</label><div>${n.year ?? '—'}</div></div>
-    </div>
-    <div class="row cols">
-      <div><label>Artist</label><div>${escapeHtml(n.artist||'—')}</div></div>
-      <div><label>Writer</label><div>${escapeHtml(n.writer||'—')}</div></div>
-    </div>
-    <div class="row"><label>Summary</label><div>${n.summary ? nl2br(escapeHtml(n.summary)) : '—'}</div></div>
-    <div class="row"><label>Tags</label><div>${n.tags?.length ? n.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join(' ') : '—'}</div></div>
-    <div class="row cols">
-      <div><label>Link A</label><div>${n.link_a ? `<a href="${n.link_a}" target="_blank" rel="noopener">Link A</a>` : '—'}</div></div>
-      <div><label>Link B</label><div>${n.link_b ? `<a href="${n.link_b}" target="_blank" rel="noopener">Link B</a>` : '—'}</div></div>
-    </div>
-  `;
-
-  const imgs = document.createElement('div'); imgs.className='row'; imgs.innerHTML = `<label>Images</label>`;
-  const grid = document.createElement('div'); grid.className='grid-imgs';
-  (n.images||[]).forEach(url=>{
-    const cell = document.createElement('div'); cell.className='imgcell';
-    const im = document.createElement('img'); im.src = thumbUrl(url); im.alt='';
-    im.addEventListener('click', ()=> viewer(true, url));
-    cell.appendChild(im); grid.appendChild(cell);
-  });
-  if ((n.images||[]).length) imgs.appendChild(grid);
-  else imgs.innerHTML += `<div class="help">—</div>`;
-  page.appendChild(imgs);
-
-  const btns = document.createElement('div'); btns.className='btns';
-  if (canEdit) btns.innerHTML += `<button class="btn primary" id="edit">Edit</button>`;
-  page.appendChild(btns);
-
-  box.appendChild(page);
-  if (canEdit) document.getElementById('edit').onclick = ()=> routeTo(`#/edit/${encodeURIComponent(n.id)}`);
-}
-
-/*************** Form (create/edit) ***************/
-function renderForm(n=null){
-  document.body.classList.toggle('editing', true);
-  const box = document.getElementById('detail');
-  box.style.display = '';
-  document.getElementById('feed').style.display = 'none';
-
-  const isEdit = !!(n && n.id);
-  box.innerHTML = '';
-  const page = document.createElement('div'); page.className='page';
-
-  const back = document.createElement('div'); back.className='backlink'; back.innerHTML='← Back'; back.onclick = ()=> history.back(); page.appendChild(back);
-
-  const seriesOptions = seriesListFromNotes(allNotes).map(s=>`<option value="${escapeAttr(s)}">`).join('');
-
-  page.innerHTML += `
-    <div class="row cols">
-      <div>
-        <label>Series *</label>
-        <input id="f-series" type="text" list="series-list" placeholder="e.g. Batman v3 (2016)" value="${escapeAttr(n?.series||'')}" required>
-        <datalist id="series-list">${seriesOptions}</datalist>
-      </div>
-      <div>
-        <label>Issue *</label>
-        <input id="f-issue" type="number" min="0" placeholder="e.g. 1" value="${n?.issue ?? ''}" required>
-      </div>
-    </div>
-
-    <div class="row cols">
-      <div>
-        <label>Title</label>
-        <input id="f-title" type="text" placeholder="Issue title (optional)" value="${escapeAttr(n?.title||'')}">
-      </div>
-      <div>
-        <label>Year</label>
-        <input id="f-year" type="number" placeholder="e.g. 2016" value="${n?.year ?? ''}">
-      </div>
-    </div>
-
-    <div class="row cols">
-      <div>
-        <label>Artist</label>
-        <input id="f-artist" type="text" placeholder="Artist" value="${escapeAttr(n?.artist||'')}">
-      </div>
-      <div>
-        <label>Writer</label>
-        <input id="f-writer" type="text" placeholder="Writer" value="${escapeAttr(n?.writer||'')}">
-      </div>
-    </div>
-
-    <div class="row">
-      <label>Summary</label>
-      <textarea id="f-summary" placeholder="Short summary…">${escapeHtml(n?.summary||'')}</textarea>
-    </div>
-
-    <div class="row">
-      <label>Tags</label>
-      <input id="f-tags" type="text" placeholder="comma-separated: Tim, Family" value="${escapeAttr((n?.tags||[]).join(', '))}">
-      <div class="help">Tags are stored as an array. They render as #Tim #Family automatically.</div>
-    </div>
-
-    <div class="row cols">
-      <div>
-        <label>Link A</label>
-        <input id="f-linka" type="text" placeholder="https://…" value="${escapeAttr(n?.link_a||'')}">
-      </div>
-      <div>
-        <label>Link B</label>
-        <input id="f-linkb" type="text" placeholder="https://…" value="${escapeAttr(n?.link_b||'')}">
-      </div>
-    </div>
-
-    <div class="row">
-      <label>Images</label>
-      <div class="btns" style="margin-bottom:8px">
-        <button class="btn" id="btn-upload">Upload file</button>
-        <button class="btn" id="btn-import">Import from URL</button>
-      </div>
-      <div class="grid-imgs" id="img-grid"></div>
-    </div>
-
-    <div class="btns">
-      <button class="btn" id="cancel">Cancel</button>
-      ${isEdit ? `<button class="btn warn" id="delete">Delete</button>` : ''}
-      <button class="btn primary" id="save">${isEdit ? 'Save' : 'Add'}</button>
-    </div>
-  `;
-
-  const images = [...(n?.images||[])];
-  const grid = page.querySelector('#img-grid');
-  function refreshImages(){
-    grid.innerHTML = '';
-    images.forEach((url, idx)=>{
-      const cell = document.createElement('div'); cell.className='imgcell';
-      const im = document.createElement('img'); im.src = thumbUrl(url); im.alt='';
-      im.addEventListener('click', ()=> viewer(true, url));
-      const rm = document.createElement('button'); rm.textContent='×'; rm.title='Remove';
-      rm.onclick = ()=>{ images.splice(idx,1); refreshImages(); };
-      cell.appendChild(im); cell.appendChild(rm); grid.appendChild(cell);
-    });
-  }
-  refreshImages();
-
-  page.querySelector('#cancel').onclick = ()=> history.back();
-
-  if (n?.id){
-    page.querySelector('#delete').onclick = async ()=>{
-      if (!confirm('Delete this note?')) return;
-      const { error } = await supabase.from('notes').delete().eq('id', n.id);
-      if (error) return alert('Delete error: ' + error.message);
-      toast('Deleted.'); await loadFeed(); history.back();
-    };
-  }
-
-  // Upload local files → Cloudinary unsigned
-  page.querySelector('#btn-upload').onclick = async ()=>{
-    const fi = document.createElement('input'); fi.type='file'; fi.accept="image/*"; fi.multiple=true;
+/* ---------- Form (create) ---------- */
+function wireForm(){
+  const sheet = document.getElementById('sheet');
+  document.getElementById('closeSheet').onclick = closeForm;
+  document.getElementById('cancel').onclick = closeForm;
+  document.getElementById('btn-add-url').onclick = ()=>{
+    const url = prompt('Paste image URL'); if(!url) return;
+    imagesLocal.push(url.trim()); refreshImages();
+  };
+  document.getElementById('btn-upload').onclick = async ()=>{
+    const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.multiple=true;
     fi.onchange = async ()=>{
-      if (!fi.files?.length) return;
-      for (const file of fi.files){
+      if(!fi.files?.length) return;
+      for(const file of fi.files){
+        const form = new FormData();
+        form.append('file', file);
+        form.append('upload_preset', CONFIG.CLOUDINARY_UNSIGNED_PRESET);
+        if(CONFIG.CLOUDINARY_FOLDER) form.append('folder', CONFIG.CLOUDINARY_FOLDER);
         try{
-          const url = await cloudinaryUploadFile(file);
-          images.push(url); refreshImages();
-        } catch(e){ alert('Upload failed: ' + e.message); }
+          const res = await fetch(`https://api.cloudinary.com/v1_1/${CONFIG.CLOUDINARY_CLOUD_NAME}/upload`, { method:'POST', body:form });
+          const json = await res.json();
+          if(json.secure_url){ imagesLocal.push(json.secure_url); refreshImages(); }
+          else { throw new Error(json.error?.message||'Upload failed'); }
+        }catch(e){ alert(e.message); }
       }
     };
     fi.click();
   };
+  document.getElementById('save').onclick = saveForm;
 
-  // Import remote URL via Cloudinary (fixes bad links)
-  page.querySelector('#btn-import').onclick = async ()=>{
-    const remote = prompt('Paste an image URL to import via Cloudinary:');
-    if (!remote) return;
-    try{
-      const url = await cloudinaryImportURL(remote.trim());
-      images.push(url); refreshImages();
-    } catch(e){ alert('Import failed: ' + e.message); }
-  };
-
-  page.querySelector('#save').onclick = async (ev)=>{
-    const btn = ev.currentTarget;
-    btn.disabled = true; btn.textContent = isEdit ? 'Saving…' : 'Adding…';
-
-    const series = valOrNull('#f-series', page);
-    const issue  = parseInt(page.querySelector('#f-issue').value,10);
-
-    if (!series){ btn.disabled=false; btn.textContent=isEdit?'Save':'Add'; return alert('Series is required.'); }
-    if (!(issue>=0)){ btn.disabled=false; btn.textContent=isEdit?'Save':'Add'; return alert('Issue is required (integer).'); }
-
-    const yearVal = page.querySelector('#f-year').value.trim();
-    const year = yearVal ? parseInt(yearVal,10) : null;
-
-    const title = valOrNull('#f-title', page);
-    const artist = valOrNull('#f-artist', page);
-    const writer = valOrNull('#f-writer', page);
-    const summary = valOrNull('#f-summary', page);
-
-    const tagsRaw = page.querySelector('#f-tags').value || '';
-    const tags = tagsRaw.split(',').map(t=>t.trim()).filter(Boolean);
-    const link_a = valOrNull('#f-linka', page);
-    const link_b = valOrNull('#f-linkb', page);
-
-    const payload = { series, issue, year, title, artist, writer, summary, tags, link_a, link_b, images };
-
-    try{
-      if (isEdit){
-        const { error } = await supabase.from('notes').update(payload).eq('id', n.id).select('id').single();
-        if (error) throw error;
-        toast('Saved.');
-      } else {
-        const uid = session?.user?.id || null;
-        const { error } = await supabase.from('notes').insert({ ...payload, user_id: uid }).select('id').single();
-        if (error) throw error;
-        toast('Added.');
-      }
-      await loadFeed();
-      history.back();
-    }catch(err){
-      alert('Save error: ' + (err?.message || JSON.stringify(err)));
-    }finally{
-      btn.disabled = false; btn.textContent = isEdit ? 'Save' : 'Add';
-    }
-  };
-
-  document.getElementById('detail').appendChild(page);
-  routeTo(isEdit ? `#/edit/${encodeURIComponent(n.id)}` : '#/edit/new');
-}
-
-/*************** Cloudinary helpers ***************/
-async function cloudinaryUploadFile(file){
-  const form = new FormData();
-  form.append('file', file);
-  form.append('upload_preset', CONFIG.CLOUDINARY_UNSIGNED_PRESET);
-  if (CONFIG.CLOUDINARY_FOLDER) form.append('folder', CONFIG.CLOUDINARY_FOLDER);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CONFIG.CLOUDINARY_CLOUD_NAME}/upload`, { method:'POST', body:form });
-  const json = await res.json();
-  if (!res.ok || !json.secure_url) throw new Error(json.error?.message || 'Upload failed');
-  return json.secure_url;
-}
-async function cloudinaryImportURL(remoteUrl){
-  const form = new FormData();
-  form.append('file', remoteUrl);
-  form.append('upload_preset', CONFIG.CLOUDINARY_UNSIGNED_PRESET);
-  if (CONFIG.CLOUDINARY_FOLDER) form.append('folder', CONFIG.CLOUDINARY_FOLDER);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CONFIG.CLOUDINARY_CLOUD_NAME}/upload`, { method:'POST', body:form });
-  const json = await res.json();
-  if (!res.ok || !json.secure_url) throw new Error(json.error?.message || 'Import failed');
-  return json.secure_url;
-}
-
-/*************** Viewer ***************/
-function viewer(show, url=''){
-  const v = document.getElementById('viewer');
-  const im = v.querySelector('img');
-  if (show){ im.src = url; v.classList.add('active'); }
-  else { im.src=''; v.classList.remove('active'); }
-}
-function thumbUrl(url){ return url; }
-
-/*************** Utils ***************/
-function valOrNull(sel, root=document){ const v=root.querySelector(sel)?.value.trim(); return v? v:null; }
-function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));}
-function escapeAttr(s){ return escapeHtml(s); }
-function nl2br(s){ return s.replace(/\n/g,'<br>'); }
-let toastTimer;
-function toast(msg){
-  let el = document.getElementById('toast');
-  if (!el){ el = document.createElement('div'); el.id='toast';
-    el.style.cssText='position:fixed;left:50%;bottom:20px;transform:translateX(-50%);padding:10px 14px;border-radius:10px;background:rgba(0,0,0,.8);color:#fff;z-index:100';
-    document.body.appendChild(el);
+  // local images buffer
+  window.imagesLocal = [];
+  const grid = document.getElementById('img-grid');
+  function refreshImages(){
+    grid.innerHTML='';
+    imagesLocal.forEach((u,idx)=>{
+      const cell = document.createElement('div'); cell.className='imgcell';
+      const im = document.createElement('img'); im.src=u; im.alt=''; im.onclick=()=> viewer(true,u);
+      const rm = document.createElement('button'); rm.textContent='×'; rm.title='Remove';
+      rm.onclick=()=>{ imagesLocal.splice(idx,1); refreshImages(); };
+      cell.appendChild(im); cell.appendChild(rm); grid.appendChild(cell);
+    });
   }
-  el.textContent = msg; el.style.display = ''; clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> el.style.display='none', 4000);
+  window.refreshImages = refreshImages;
+
+  function closeForm(){
+    sheet.classList.remove('show');
+    document.body.classList.remove('editing');
+  }
 }
+
+function openForm(){
+  if(!canEdit){ alert('Sign in as owner to add.'); return; }
+  const f = (id)=>document.getElementById(id);
+  f('f-series').value = currentSeries || '';
+  f('f-issue').value = '';
+  f('f-title').value = '';
+  f('f-year').value = '';
+  f('f-artist').value = '';
+  f('f-writer').value = '';
+  f('f-summary').value = '';
+  f('f-tags').value = '';
+  f('f-linka').value = '';
+  f('f-linkb').value = '';
+  imagesLocal.length=0; refreshImages();
+  document.getElementById('sheet').classList.add('show');
+  document.body.classList.add('editing');
+}
+function addTagToInput(tag){
+  const input = document.getElementById('f-tags');
+  const cur = input.value.split(',').map(s=>s.trim()).filter(Boolean);
+  if(!cur.includes(tag)) cur.push(tag);
+  input.value = cur.join(', ');
+}
+
+async function saveForm(){
+  const f = (id)=>document.getElementById(id).value.trim();
+  const series = f('f-series'); const issueStr = f('f-issue');
+  if(!series || !issueStr) return alert('Series and Issue are required.');
+  const payload = {
+    series,
+    issue: parseInt(issueStr,10),
+    title: f('f-title') || null,
+    year: f('f-year') ? parseInt(f('f-year'),10) : null,
+    artist: f('f-artist') || null,
+    writer: f('f-writer') || null,
+    summary: f('f-summary') || null,
+    tags: f('f-tags') ? f('f-tags').split(',').map(s=>s.trim()).filter(Boolean) : [],
+    link_a: f('f-linka') || null,
+    link_b: f('f-linkb') || null,
+    images: imagesLocal.slice(),
+    user_id: session?.user?.id || null
+  };
+  const { error } = await supabase.from('notes').insert(payload);
+  if(error) return alert('Save error: '+error.message);
+  // refresh
+  await loadAll();
+  document.getElementById('sheet').classList.remove('show');
+  document.body.classList.remove('editing');
+  // вернуться к серии
+  showListForSeries(series);
+}
+
+/* ---------- end ---------- */
 </script>
 </body>
 </html>
